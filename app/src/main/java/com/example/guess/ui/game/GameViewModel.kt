@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.guess.data.GameChatMessage
+import com.example.guess.domain.RandomWordUseCase
 import com.example.guess.utils.KEY_HOST_NAME
 import com.example.guess.utils.KEY_NAME
 import com.example.guess.utils.KEY_SELECTED_WORD
@@ -35,7 +36,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class GameViewModel @AssistedInject constructor(
-    private val gameRepository: GameRepository,
+    private val randomWordUseCase: RandomWordUseCase,
     private val chatClient: ChatClient,
     @Assisted val cid: String
 ) : ViewModel() {
@@ -153,7 +154,7 @@ class GameViewModel @AssistedInject constructor(
     }
 
     private fun getRandomWords() = viewModelScope.launch {
-        val randomWords = gameRepository.getRandomWords()
+        val randomWords = randomWordUseCase.getRandomWords()
         _randomWords.emit(randomWords)
     }
 
